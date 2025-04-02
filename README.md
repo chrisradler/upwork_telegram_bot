@@ -30,25 +30,37 @@ This bot periodically scrapes Upwork for the latest AI job opportunities that ma
 ## Installation
 
 1. Fork this repository
-2. Open up and apify account and subscribe to the actor arlusm/upwork-scraper-with-fresh-job-posts 
+
+2. Open up and apify account and subscribe to the actor arlusm/upwork-scraper-with-fresh-job-posts:
     - https://console.apify.com/actors/Cvx9keeu3XbxwYF6J/input to sign in
-    - Create a new api key. Settings -> API & Integrations
+    - Click the green start button when you are on the correct actor, you will activate a FREE TRIAL
+    - Create a new api key. Settings -> API & Integrations -> Create New Token
     - Add api key to the .env file and as defualt values (not necessary) in scraper.py
+
 3. Setup telegram bot:
     - Open Telegram and search for "@BotFather"
     - Start a chat with BotFather and send the command /newbot
     - Follow  the prompts to name your bot and create a username (must end with "bot")
     - BotFather will give you an API token (keep this secure!) 
     - Make sure to message the chat to initialize it
-4. Set up the required secrets in your GitHub repository (YOUR_APIFY_TOKEN, YOUR_TELEGRAM_BOT_TOKEN,       YOUR_TELEGRAM_CHAT_ID):
+
+4. Obtain Telegram chat_id:
+    - Create a new group in telegram and add your new bot to it. 
+    - Visit this URL in a browser (replace with your actual bot token): https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
+    - Look for the "chat" object in the JSON response to find the "id" field. It will look like -723738272
+
+5. Set up the required secrets in your GitHub repository (YOUR_APIFY_TOKEN, YOUR_TELEGRAM_BOT_TOKEN,       YOUR_TELEGRAM_CHAT_ID):
     - Access repository
     - Navigate to secrets and Variables -> Actions -> New Repository Secrets -> Enter your keys
     - Make sure your repository is private so you do not leak any secrets!
-5. Enable Github Actions:
+
+6. Enable Github Actions:
     - Access repository
     - Settings -> Actions -> General -> Allow all actions and reusable workflows
-6. Adjust the system prompt to your use case. Line 30 in scraper.py
-7. Everything should work and the bot should run every 30 minutes. You can run python3 scraper.py and manually run the bot to test. make sure you have activated the virtual environment. source venv/bin/activate
+
+7. Adjust the system prompt to your use case. Line 30 in scraper.py
+
+8. Everything should work and the bot should run every 30 minutes. You can run python3 scraper.py and manually run the bot to test. make sure you have activated the virtual environment. source venv/bin/activate
 
 ### GitHub Workflow
 
