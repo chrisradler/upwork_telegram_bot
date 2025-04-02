@@ -49,7 +49,7 @@ This bot periodically scrapes Upwork for the latest AI job opportunities that ma
     - Visit this URL in a browser (replace with your actual bot token): https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
     - Look for the "chat" object in the JSON response to find the "id" field. It will look like -723738272
 
-5. Set up the required secrets in your GitHub repository (YOUR_APIFY_TOKEN, YOUR_TELEGRAM_BOT_TOKEN,       YOUR_TELEGRAM_CHAT_ID):
+5. Set up the required secrets in your GitHub repository (YOUR_APIFY_TOKEN, YOUR_TELEGRAM_BOT_TOKEN, YOUR_TELEGRAM_CHAT_ID):
     - Access repository
     - Navigate to secrets and Variables -> Actions -> New Repository Secrets -> Enter your keys
     - Make sure your repository is private so you do not leak any secrets!
