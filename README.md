@@ -15,7 +15,7 @@ This bot periodically scrapes Upwork for the latest AI job opportunities that ma
 - 🤖 Automatically generates customized proposals with Claude AI
 - 🔄 Runs automatically every 30 minutes during business hours (Mon-Fri, 9am-7pm EST)
 - 📱 Sends formatted job notifications and proposals to Telegram
-- ⏰ ONLY Returns job that have been posted in the last hour
+- ⏰ ONLY Returns job that have been posted in the lAST hour
 
 ## Requirements
 
