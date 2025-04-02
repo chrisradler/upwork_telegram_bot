@@ -58,9 +58,30 @@ This bot periodically scrapes Upwork for the latest AI job opportunities that ma
     - Access repository
     - Settings -> Actions -> General -> Allow all actions and reusable workflows
 
-7. Adjust the system prompt to your use case. Line 30 in scraper.py
+7. Create a .env file, look for templete below
 
-8. Everything should work and the bot should run every 30 minutes. You can run python3 scraper.py and manually run the bot to test. make sure you have activated the virtual environment. source venv/bin/activate
+8. Adjust the system prompt to your use case. Line 30 in scraper.py
+
+9. Everything should work and the bot should run every 30 minutes. You can run python3 scraper.py and manually run the bot to test. make sure you have activated the virtual environment. source venv/bin/activate
+
+### .env Template
+# Apify credentials
+APIFY_TOKEN=YOUR_APIFY_TOKEN
+
+# Telegram bot credentials
+TELEGRAM_BOT_TOKEN=YOUR_TELEGRAM_BOT_TOKEN
+TELEGRAM_CHAT_ID=YOUR_TELEGRAM_CHAT_ID
+
+# Claude API credentials
+CLAUDE_API_KEY=YOUR_CLAUDE_API_KEY
+
+# Optional: Configure proxy if needed
+# PROXY_URL=http://user:pass@proxy.example.com:8080
+
+# Optional: Configure runtime settings
+MAX_RETRIES=3
+RETRY_DELAY=5
+BATCH_SIZE=1
 
 ### GitHub Workflow
 
