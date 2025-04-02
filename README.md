@@ -31,7 +31,7 @@ This bot periodically scrapes Upwork for the latest AI job opportunities that ma
 
 1. Fork this repository
 
-2. Open up and apify account and subscribe to the actor arlusm/upwork-scraper-with-fresh-job-posts:
+2. Open up an apify account and subscribe to the actor arlusm/upwork-scraper-with-fresh-job-posts:
     - https://console.apify.com/actors/Cvx9keeu3XbxwYF6J/input to sign in
     - Click the green start button when you are on the correct actor, you will activate a FREE TRIAL
     - Create a new api key. Settings -> API & Integrations -> Create New Token
