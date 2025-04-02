@@ -10,7 +10,7 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Get credentials from environment variables
-APIFY_TOKEN = os.environ.get("APIFY_TOKEN", "YOUR_APIFY_TOKEN")
+APIFY_TOKEN = os.environ.get("APIFY_TOKEN", "apify_api_Xk7beppNdbX4sWYsy2mAQgihhWv7462zTL6U")
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "YOUR_TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "YOUR_TELEGRAM_CHAT_ID")
 CLAUDE_API_KEY = os.environ.get("CLAUDE_API_KEY", "YOUR_CLAUDE_API_KEY")
@@ -133,8 +133,7 @@ else:
 run_input = {
     "startUrls": [
         { "url": "https://www.upwork.com/nx/search/jobs/?amount=1000-4999,5000-&category2_uid=531770282580668419,531770282580668418&client_hires=1-9,10-&contractor_tier=2,3&hourly_rate=35-&location=Americas,Europe&per_page=50&proposals=0-4,5-9,10-14&sort=recency&t=0,1" },
-        { "url": "https://www.upwork.com/nx/search/jobs/?amount=1000-4999,5000-&category2_uid=531770282580668419,531770282580668418&client_hires=1-9,10-&contractor_tier=2,3&hourly_rate=35-&location=Americas,Europe&per_page=50&proposals=0-4,5-9,10-14&q=ai&sort=recency&t=0,1" },
-        { "url": "https://www.upwork.com/nx/search/jobs/?amount=1000-4999,5000-&category2_uid=531770282580668419,531770282580668418&client_hires=1-9,10-&contractor_tier=2,3&hourly_rate=40-&location=Americas,Europe&per_page=50&proposals=0-4,5-9,10-14&q=ai%20app%20developer&sort=recency&t=0,1" }
+        { "url": "https://www.upwork.com/nx/search/jobs/?amount=500-999,1000-4999,5000-&category2_uid=531770282580668420,531770282580668418&client_hires=0,1-9,10-&contractor_tier=1,2,3&hourly_rate=35-&location=Americas,Europe&payment_verified=1&per_page=50&proposals=0-4,5-9,10-14&sort=recency&t=0,1" }
     ],
     "removeDuplicates": True,
     "filterLast24Hours": True,
