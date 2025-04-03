@@ -1,10 +1,10 @@
 # Upwork AI Job Scraper with Proposal Generator
 
-An automated tool that scrapes Upwork for AI-related job postings, generates customized proposals using Claude AI, and sends both to your Telegram channel.
+An automated tool that scrapes Upwork for AI-related job postings, generates customized proposals using Claude AI, creates implementation flowcharts, and sends everything to your Telegram channel.
 
 ## Overview
 
-This bot periodically scrapes Upwork for the latest AI job opportunities that match specific criteria (hourly rate, client hiring history, location, etc.). For each job found, it uses Claude AI to generate a tailored proposal and sends both the job details and proposal directly to a Telegram chat. It runs on GitHub Actions, so there's no need for a dedicated server.
+This bot periodically scrapes Upwork for the latest AI job opportunities that match specific criteria (hourly rate, client hiring history, location, etc.). For each job found, it uses Claude AI to generate a tailored proposal and a custom implementation flowchart, then sends the job details, proposal, and flowchart link directly to a Telegram chat. It runs on GitHub Actions, so there's no need for a dedicated server.
 
 ## Features
 
@@ -13,6 +13,7 @@ This bot periodically scrapes Upwork for the latest AI job opportunities that ma
 - 👥 Targets clients with proven hiring history
 - 🌎 Focuses on jobs from Americas and Europe
 - 🤖 Automatically generates customized proposals with Claude AI
+- 📊 Creates custom implementation flowcharts for each job using Mermaid.js
 - 🔄 Runs automatically every 30 minutes during business hours (Mon-Fri, 9am-7pm EST)
 - 📱 Sends formatted job notifications and proposals to Telegram
 - ⏰ ONLY Returns job that have been posted in the lAST hour
@@ -101,7 +102,9 @@ The search criteria are defined in `scraper.py`. Current criteria include:
 
 You can modify these search parameters in the `run_input` section of `scraper.py`.
 
-### Proposal Customization
+### Proposal and Flowchart Customization
+
+### Proposal Generation
 
 The AI-generated proposals are tailored to present your business (tmplogic) as a custom AI/Automation and software company. The proposal template is defined in the `generate_proposal_with_claude` function and includes:
 
@@ -110,6 +113,16 @@ The AI-generated proposals are tailored to present your business (tmplogic) as a
 3. A closing paragraph suggesting a call to discuss the project
 
 Modify the prompt in this function to adjust the proposal style and content to match your business.
+
+### Flowchart Generation
+For each job listing, the system generates a custom implementation flowchart using Mermaid.js. The flowchart visualizes the approach your team would take to complete the project, including:
+
+1. Project phases organized in subgraphs
+2. 8-12 detailed steps specific to the project requirements
+3. Decision points where applicable
+4. Professional styling with color-coded phases
+
+The flowcharts are generated using the Claude API and shared as viewable links using Mermaid Live Editor.
 
 ## Usage
 
@@ -139,7 +152,7 @@ Check the GitHub Actions logs for any errors. Common issues include:
 
 - Invalid API tokens or authentication failures
 - Rate limiting from Upwork, Telegram, or Claude APIs
-- Proposal generation failures (Claude API overloaded)
+- Proposal or flowchart generation failures (Claude API overloaded)
 
 The script includes retry logic for API calls to handle temporary service disruptions.
 
@@ -152,3 +165,4 @@ MIT
 This project uses:
 - [Apify](https://apify.com/) for web scraping capabilities
 - [Claude AI](https://www.anthropic.com/claude) for automated proposal generation
+- Mermaid.js for flowchart visualization
