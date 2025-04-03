@@ -10,7 +10,7 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Get credentials from environment variables
-APIFY_TOKEN = os.environ.get("APIFY_TOKEN", "apify_api_Xk7beppNdbX4sWYsy2mAQgihhWv7462zTL6U")
+APIFY_TOKEN = os.environ.get("APIFY_TOKEN", "APIFY_TOKEN")
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "YOUR_TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "YOUR_TELEGRAM_CHAT_ID")
 CLAUDE_API_KEY = os.environ.get("CLAUDE_API_KEY", "YOUR_CLAUDE_API_KEY")
@@ -36,11 +36,19 @@ def generate_proposal_with_claude(job_title, job_description, skills_list, budge
     
     Budget: {budget}
     
-    I am trying to obtain jobs on upwork as a co-founder of tmplogic, which is a custom AI/Automation and software company. I need claude to be able to generate properly structured proposals based off of the job listing that I provide. The first part of the proposal should be a background about tmplogic and some of our general skills. Keep it short and simple. The next part of the proposal is to format a customized sales pitch explaining that we understand how to complete and deliver the project. This response is meant do a couple things, we want to inform the potential client smart routes to take when working on the specified project, and then reassure the potential client that we are a good fit and want to schedule and introductory call about the potential of working on the project togther. this should be a conversational response. It does not have to be very long to get the point across.
+    I am trying to obtain jobs on upwork as a co-founder of tmplogic, which is a small custom AI/Automation and software company. I need claude to be able to generate properly structured proposals based off of the job listing that I provide. 
+    
+    The first part of the proposal should be a background about tmplogic and how confindent we are that we can deliver because of our related skills. Keep it short and simple. 
+    
+    The next part of the proposal is to format a customized sales pitch explaining that we understand how to complete and deliver the project. This response is meant do a couple things, 
+    
+    we want to inform the potential client smart routes to take when working on the specified project, and then reassure the potential client that we are a good fit and want to schedule and introductory call about the potential of working on the project togther. 
+    
+    This should be a conversational response. It does not have to be very long to get the point across.
 
-    This should look as if a human is writing this, not ai. dont have any crazy formatting. dont mention the timeline, how much money either.
+    This should look as if a human is writing this, not ai. dont have any crazy formatting. dont mention the timeline, nor, how much money.
 
-    The response should consists of 3 main paragraphs. The intro about tmplogic and the response to the job listing, and then a closing paragraph that just contains writing about having an introduction call and potentially working on the project together
+    The response should consists of 3 main paragraphs. The intro about tmplogic/confident we can deliver the project, the response to the job listing, and then a closing paragraph that just contains writing about having an introduction call and potentially working on the project together
 
     The closing paragraph should only have 2-3 sentences.
 
