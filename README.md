@@ -9,7 +9,7 @@ This bot periodically scrapes Upwork for the latest AI job opportunities that ma
 ## Features
 
 - 🔍 Scrapes multiple Upwork search queries focused on AI jobs
-- 💰 Filters for jobs with higher budgets ($1000+) and rates ($35+/hour)
+- 💰 Filters for jobs with higher budgets ($500+) and rates ($35+/hour)
 - 👥 Targets clients with proven hiring history
 - 🌎 Focuses on jobs from Americas and Europe
 - 🤖 Automatically generates customized proposals with Claude AI
@@ -93,7 +93,7 @@ You can adjust this schedule to your preferred frequency and timezone.
 The search criteria are defined in `scraper.py`. Current criteria include:
 
 - AI-related jobs (Web Development, Software Development)
-- Budget range: $1000-$4999, $5000+
+- Budget range: $500-$999, $1000-$4999, $5000+
 - Hourly rate: $35+
 - Client history: 1-9 hires, 10+ hires
 - Location: Americas, Europe
