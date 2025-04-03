@@ -1,4 +1,3 @@
-from apify_client import ApifyClient
 import requests
 import time
 import os
@@ -10,18 +9,40 @@ import re
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Get credentials from environment variables
-APIFY_TOKEN = os.environ.get("APIFY_TOKEN", "APIFY_TOKEN")
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "TELEGRAM_BOT_TOKEN")
-CLAUDE_API_KEY = os.environ.get("CLAUDE_API_KEY", "TELEGRAM_BOT_TOKEN")
-client = ApifyClient(token=APIFY_TOKEN)
+TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "TELEGRAM_CHAT_ID")
+CLAUDE_API_KEY = os.environ.get("CLAUDE_API_KEY", "CLAUDE_API_KEY")
 
-def generate_mermaid_flowchart(job_title, job_description, skills_list):
+# ========================
+# EDIT THESE VARIABLES FOR EACH NEW JOB
+# ========================
+
+# Job details - update these variables for each new job
+JOB_TITLE = "AI-Powered Analytics Dashboard"
+JOB_DESCRIPTION = """
+We need a developer to create an analytics dashboard that uses AI to provide insights from our customer data. The dashboard should:
+1. Connect to our existing PostgreSQL database
+2. Analyze customer behavior patterns
+3. Provide visualizations of key metrics
+4. Use machine learning to identify trends and make predictions
+5. Include a user-friendly interface for our marketing team
+
+The ideal solution will be built with modern web technologies and integrate with our existing systems.
+"""
+
+# ========================
+# DON'T MODIFY BELOW THIS LINE
+# ========================
+
+def generate_mermaid_flowchart(job_title, job_description, skills_list=None):
     """
     Generate a customized Mermaid flowchart code based on job details using Claude
     Returns the Mermaid code and a shareable URL to view the flowchart
     """
     logging.info(f"Generating custom flowchart for: {job_title}")
+    
+    if skills_list is None:
+        skills_list = []
     
     # Claude API endpoint
     url = "https://api.anthropic.com/v1/messages"
@@ -135,9 +156,14 @@ def generate_mermaid_flowchart(job_title, job_description, skills_list):
             # Other errors - don't retry
             else:
                 logging.error(f"Failed to generate Mermaid flowchart: {response_data}")
+                return None, None
                 
         except Exception as e:
             logging.error(f"Exception calling Claude API: {str(e)}")
+            return None, None
+    
+    # If we've exhausted all retries
+    return None, None
 
 def create_mermaid_live_url(mermaid_code):
     """
@@ -165,12 +191,16 @@ def create_mermaid_live_url(mermaid_code):
     
     return mermaid_live_url
 
-# Function to generate proposal with Claude
-def generate_proposal_with_claude(job_title, job_description, skills_list, budget, flowchart_url=None):
+def generate_proposal_with_claude(job_title, job_description, skills_list=None, budget=None, flowchart_url=None):
     """
     Generate a job proposal using Claude API based on the job details
     """
     logging.info(f"Generating proposal for: {job_title}")
+    
+    if skills_list is None:
+        skills_list = []
+    if budget is None:
+        budget = "Not specified"
     
     # Claude API endpoint
     url = "https://api.anthropic.com/v1/messages"
@@ -198,9 +228,9 @@ def generate_proposal_with_claude(job_title, job_description, skills_list, budge
     
     I am trying to obtain jobs on upwork as a co-founder of tmplogic, which is a small custom AI/Automation and software company. I need claude to be able to generate properly structured proposals based off of the job listing that I provide. 
     
-    The first part of the proposal should be a background about tmplogic and how confindent we are that we can deliver because of our related skills. Keep it short and simple. 
+    The first part of the proposal should start with "I run a small custom AI, automation, and software company where all of the dev work is done by my partner and I" should be a background about tmplogic and how confindent we are that we can deliver because of our related skills. Keep it short and simple. 
     
-    The next part of the proposal is to format a customized sales pitch explaining that we understand how to complete and deliver the project. This response is meant do a couple things, 
+    The next part of the proposal is to format a customized sales pitch explaining that we understand how to complete and deliver the project. Do not re iterate that the project is good for us or right up our alley or anything like that in the 2nd paragraph. The 2nd paragraph is meant do a couple things, 
     
     we want to inform the potential client smart routes to take when working on the specified project, and then reassure the potential client that we are a good fit and want to schedule and introductory call about the potential of working on the project togther. 
     
@@ -271,7 +301,6 @@ def generate_proposal_with_claude(job_title, job_description, skills_list, budge
     # If we've exhausted all retries
     return "Could not generate proposal after multiple attempts. Claude API may be experiencing high traffic."
 
-# Function to send messages to Telegram
 def send_telegram_message(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {
@@ -290,123 +319,61 @@ def send_telegram_message(message):
         logging.error(f"Exception sending Telegram message: {str(e)}")
         return {"ok": False, "error": str(e)}
 
-# Test Telegram connection
-logging.info("Testing Telegram connection...")
-test_result = send_telegram_message("🔄 Upwork scraper starting...")
-if test_result.get('ok'):
-    logging.info("Telegram connection successful")
-else:
-    logging.error(f"Telegram connection failed: {test_result}")
-
-# Prepare the Actor input with your three URLs
-run_input = {
-    "startUrls": [
-        {"url": "https://www.upwork.com/nx/search/jobs/?amount=500-999,1000-4999,5000-&category2_uid=531770282580668420,531770282580668418&client_hires=0,1-9,10-&contractor_tier=1,2,3&hourly_rate=35-&location=Americas,Europe&payment_verified=1&per_page=50&proposals=0-4,5-9,10-14&sort=recency&t=0,1"}
-    ],
-    "removeDuplicates": True,
-    "filterLast24Hours": True,
-    "proxyCountryCode": "US",
-}
-
-# Run the Actor and wait for it to finish
-logging.info("Starting Upwork scraper...")
-run = client.actor("Cvx9keeu3XbxwYF6J").call(run_input=run_input)
-logging.info(f"Scraping complete. Run ID: {run['id']}")
-
-# Fetch results
-logging.info("Fetching results from Apify...")
-items = list(client.dataset(run["defaultDatasetId"]).iterate_items())
-logging.info(f"Found {len(items)} items from Apify")
-
-# If no items found, send a notification and exit
-if len(items) == 0:
-    send_telegram_message("⚠️ Upwork scraper ran but found no new job listings")
-    exit(0)
-
-# Send results to Telegram
-job_count = 0
-valid_job_count = 0
-batch_size = 1  # Process one job at a time
-job_batch = []
-
-for item in items:
-    job_count += 1
+def process_job():
+    """
+    Process the job using the global variables defined at the top of the script
+    """
+    logging.info(f"Processing job: {JOB_TITLE}")
     
-    # Get skills as a comma-separated list (up to 3 skills)
+    # Extract skills (this is a simple implementation - you can improve it)
+    # This attempts to find skills mentioned in the job description
+    common_skills = ["Python", "JavaScript", "React", "Node.js", "Django", "Machine Learning", 
+                    "AI", "Data Analysis", "AWS", "Docker", "API", "Database", "SQL", 
+                    "Full Stack", "Frontend", "Backend", "DevOps", "TensorFlow", "PyTorch"]
+    
     skills = []
-    for i in range(0, 3):  # Only include up to 3 skills to keep it concise
-        skill_key = f"skills/{i}"
-        if skill_key in item and item[skill_key]:
-            skills.append(item[skill_key])
-    skills_text = ", ".join(skills) if skills else "No skills listed"
+    for skill in common_skills:
+        if skill.lower() in JOB_DESCRIPTION.lower():
+            skills.append(skill)
     
-    # Truncate description for message display but keep full version for Claude
-    description = item.get('shortBio', 'No description')
-    full_description = description  # Keep the full description for Claude
-    if description and len(description) > 250:
-        description = description[:247] + "..."
+    # Generate flowchart
+    _, flowchart_url = generate_mermaid_flowchart(
+        job_title=JOB_TITLE,
+        job_description=JOB_DESCRIPTION,
+        skills_list=skills
+    )
     
-    # Format job details using exact field names from your CSV
-    if any(keyword in item.get('publishedDate', '') for keyword in ["minute", "minutes", "1 hour"]):
-        valid_job_count += 1
-
-        # Generate a custom flowchart for this specific job
-        _, flowchart_url = generate_mermaid_flowchart(
-            job_title=item.get('title', 'No title'),
-            job_description=full_description,
-            skills_list=skills
-        )
-        
-        # Generate a proposal using Claude, including the flowchart link
-        proposal = generate_proposal_with_claude(
-            job_title=item.get('title', 'No title'),
-            job_description=full_description,
-            skills_list=skills,
-            budget=item.get('budget', 'Not specified'),
-            flowchart_url=flowchart_url
-        )
-        
-        # Include job details with proposal preview and flowchart link
-        job_details = (
-            f"<b>🔹 {item.get('title', 'No title')}</b>\n"
-            f"💰 {item.get('budget', 'N/A')} - {item.get('paymentType', '')}\n"
-            f"📝 {description}\n"
-            f"🗓️ {item.get('publishedDate', 'N/A')}\n"
-            f"🔗 <a href='{item.get('link', '')}'>View Job</a>\n\n"
-            f"<b>📝 PROPOSAL PREVIEW:</b>\n{proposal}\n\n"
-            f"<b>📊 PROJECT FLOWCHART:</b>\n{flowchart_url}"
-        )
-        
-        job_batch.append(job_details)
-        
-        # Send job listing with proposal preview
-        if len(job_batch) >= batch_size:
-            try:
-                message = f"<b>📋 UPWORK JOB LISTING #{valid_job_count}</b>\n\n" + "\n\n".join(job_batch)
-                result = send_telegram_message(message)
-                if result.get('ok'):
-                    logging.info(f"Sent job #{valid_job_count} with proposal preview")
-                else:
-                    logging.error(f"Failed to send job #{job_count}: {result}")
-            except Exception as e:
-                logging.error(f"Error sending message: {str(e)}")
-            job_batch = []
-            time.sleep(2)  # Delay to avoid rate limits
+    # Generate proposal
+    proposal = generate_proposal_with_claude(
+        job_title=JOB_TITLE,
+        job_description=JOB_DESCRIPTION,
+        skills_list=skills,
+        budget=None,  # No budget needed
+        flowchart_url=flowchart_url
+    )
+    
+    # Format message for Telegram
+    message = (
+        f"<b>📋 MANUAL JOB PROCESSING</b>\n\n"
+        f"<b>🔹 {JOB_TITLE}</b>\n\n"
+        f"<b>📝 PROPOSAL:</b>\n{proposal}\n\n"
+        f"<b>📝 FLOWCHART:</b>\n{flowchart_url}\n\n"
+    )
+    
+    # Send to Telegram
+    result = send_telegram_message(message)
+    if result.get('ok'):
+        logging.info("Sent results to Telegram successfully")
+        return True
     else:
-        message = f"Job was posted more than an hour ago! Skipping..."
-        logging.info(message)
+        logging.error("Failed to send results to Telegram")
+        return False
 
-# Send any remaining jobs
-if job_batch:
-    try:
-        message = f"<b>📋 UPWORK JOB LISTING (Final)</b>\n\n" + "\n\n".join(job_batch)
-        result = send_telegram_message(message)
-        if result.get('ok'):
-            logging.info("Sent final job details")
-        else:
-            logging.error(f"Failed to send final job details: {result}")
-    except Exception as e:
-        logging.error(f"Error sending final job message: {str(e)}")
-
-# Send summary message
-send_telegram_message(f"✅ Scraping complete! Found {valid_job_count} job listings matching your criteria. Full proposals and custom flowcharts have been shared.")
+if __name__ == "__main__":
+    # Run the processor
+    success = process_job()
+    
+    if success:
+        print("✅ Job processed and sent to Telegram successfully!")
+    else:
+        print("❌ Failed to process job or send to Telegram. Check logs for details.")
