@@ -17,6 +17,7 @@ This bot periodically scrapes Upwork for the latest AI job opportunities that ma
 - 🔄 Runs automatically every 30 minutes during business hours (Mon-Fri, 9am-7pm EST)
 - 📱 Sends formatted job notifications and proposals to Telegram
 - ⏰ ONLY Returns job that have been posted in the lAST hour
+- ✍️ Supports manual job processing for custom opportunities
 
 ## Requirements
 
@@ -139,6 +140,16 @@ The message will contain:
 - Posting date
 - Direct link to the job
 - Full AI-generated proposal
+
+### Manual Job Processing
+
+You can also manually process job descriptions to generate proposals and flowcharts without running the full scraper. This is useful for:
+
+- Creating proposals for jobs you found manually
+- Testing customized proposal formats
+- Processing job descriptions from other sources
+
+To use this feature, simply edit the variables "JOB_TITLE" and "JOB_DESCRIPTION" at the top of manual_job_processor.py and run the file
 
 ## Dependencies
 
