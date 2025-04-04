@@ -10,8 +10,8 @@ import re
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Get credentials from environment variables
-APIFY_TOKEN = os.environ.get("APIFY_TOKEN", "APIFY_TOKEN")
-TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "TELEGRAM_BOT_TOKEN")
+APIFY_TOKEN = os.environ.get("APIFY_TOKEN", "apify_api_LyZUjZHK9Axgfpr0H2c8ApcRGGwdBu1xkPW3")
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "7793308680:AAHREcdKu-4EESL74PGNxB7ReFh3TFAgqiM")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "TELEGRAM_BOT_TOKEN")
 CLAUDE_API_KEY = os.environ.get("CLAUDE_API_KEY", "TELEGRAM_BOT_TOKEN")
 client = ApifyClient(token=APIFY_TOKEN)

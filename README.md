@@ -48,8 +48,8 @@ This bot periodically scrapes Upwork for the latest AI job opportunities that ma
 
 4. Obtain Telegram chat_id:
     - Create a new group in telegram and add your new bot to it. 
-    - Visit this URL in a browser (replace with your actual bot token): https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
-    - Look for the "chat" object in the JSON response to find the "id" field. It will look like -723738272
+    - Login to your telgram account on the web (web.telegram.org)
+    - Navigate to your new group chat and look at the end of the url for the chat id numbers https://web.telegram.org/k/#-4624241302 (-4624241302 chat id)
 
 5. Set up the required secrets in your GitHub repository (YOUR_APIFY_TOKEN, YOUR_TELEGRAM_BOT_TOKEN, YOUR_TELEGRAM_CHAT_ID):
     - Access repository
